@@ -1,3 +1,8 @@
 # PE-Parse
-用来帮助新手学习PE
-			-Code by 1900
+# help programmer to learn the Windows PE structure.
+# The compiler is VS2017
+#										--Code by 1900
+
+
+# The class name is PEParse. It is used to implement the function to parse PE structure
+# The main.cpp is used to run the program to verify the function of the class
