@@ -283,14 +283,14 @@ void PEParse::PrintImportTable()
 		pDllName = (char *)((DWORD)(this->pDosHead) + this->RVAToFOA(this->pImportTable[i].Name));
 		printf("The import Dll name is %s\n", pDllName);
 
-		printf("The INT Information:\n");
+		printf("The INT Information:\n");	// get INT table
 		pINT = (PDWORD)((DWORD)(this->pDosHead) + 
 									this->RVAToFOA(this->pImportTable[i].OriginalFirstThunk));
 		while (*pINT)
 		{
-			if (*pINT & IMAGE_ORDINAL_FLAG32)
+			if (*pINT & IMAGE_ORDINAL_FLAG32) //the highest bit is 1?
 			{
-				DWORD dwOrder = *pINT - IMAGE_ORDINAL_FLAG32;
+				DWORD dwOrder = *pINT & ~IMAGE_ORDINAL_FLAG32;	//clear highest bit
 				printf("The function order is %d\n", dwOrder);
 			}
 			else
@@ -303,13 +303,13 @@ void PEParse::PrintImportTable()
 		}
 
 
-		printf("The IAT Information:\n");
+		printf("The IAT Information:\n"); // get IAT table
 		pIAT = (PDWORD)((DWORD)(this->pDosHead) + this->RVAToFOA(this->pImportTable[i].FirstThunk));
 		while (*pIAT)
 		{
-			if (*pIAT & 0x80000000)
+			if (*pIAT & IMAGE_ORDINAL_FLAG32)		//the highest bit is 1?
 			{
-				DWORD dwOrder = *pIAT - 0x80000000;
+				DWORD dwOrder = *pIAT & ~IMAGE_ORDINAL_FLAG32;	//clear highest bit
 				printf("The function order is %d\n", dwOrder);
 			}
 			else

@@ -14,7 +14,7 @@ int main()
 
 	// PEObj.PrintNtHeadInfo();
 	// PEObj.PrintSectionInfo();
-	// PEObj.PrintImportTable();
+	//PEObj.PrintImportTable();
 	// PEObj.PrintExportTable();
 	PEObj.PrintRelocationTable();
 
