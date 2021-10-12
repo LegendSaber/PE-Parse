@@ -16,11 +16,13 @@ public:
 	void PrintExportTable();	//Parse ExportTable
 	void PrintRelocationTable();	//Parse RelocationTable
 
+	bool AddSection();	//Add A Section To File
 private:
 	void *ReadFileBuffer(char *pFilePath);	//read file to memory
 	void ShowError(char *pErrMsg);			//to print error message
 	bool IsPEFile(void *pFileBuffer);		//check is pe file or not
 	DWORD RVAToFOA(DWORD dwRVA);	//convert RVA to FOA
+	DWORD Align(DWORD dwSize, DWORD dwAlign);
 private:
 	bool bIsPeFile;	//record is PE file or not
 	PIMAGE_DOS_HEADER pDosHead;

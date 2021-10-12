@@ -14,10 +14,10 @@ int main()
 
 	// PEObj.PrintNtHeadInfo();
 	// PEObj.PrintSectionInfo();
-	//PEObj.PrintImportTable();
+	// PEObj.PrintImportTable();
 	// PEObj.PrintExportTable();
-	PEObj.PrintRelocationTable();
-
+	// PEObj.PrintRelocationTable();
+	if (PEObj.AddSection()) printf("Add Section Successful\n");
 exit:
 	system("pause");
 
