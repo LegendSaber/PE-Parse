@@ -498,8 +498,9 @@ bool PEParse::AddSection()
 	DWORD dwRet = 0;
 	unsigned char szJmp[5] = { 0xE9, 0, 0, 0, 0 };	//跳转回原位置
 	
-	if (this->pSectionHead[0].PointerToRawData - (DWORD)&this->pSectionHead[this->pFileHead->NumberOfSections - 1]
-			<  2 * IMAGE_SIZEOF_SECTION_HEADER)
+	if (this->pSectionHead[0].PointerToRawData - 
+		((DWORD)&this->pSectionHead[this->pFileHead->NumberOfSections - 1] - (DWORD)this->pDosHead)
+		<  2 * IMAGE_SIZEOF_SECTION_HEADER)
 	{
 		printf("间隙不够\n");
 		bRes = false;
@@ -515,6 +516,7 @@ bool PEParse::AddSection()
 		goto exit;
 	}
 
+	ZeroMemory(pDestMemory, dwSize);
 	//将原有代码写入
 	memcpy(pDestMemory, (void *)this->pDosHead, this->pSectionHead[this->pFileHead->NumberOfSections - 1].PointerToRawData + this->pSectionHead[this->pFileHead->NumberOfSections - 1].SizeOfRawData);
 
@@ -531,7 +533,6 @@ bool PEParse::AddSection()
 			szShellcode, sizeof(szShellcode));
 	memcpy((void *)((DWORD)pDestMemory + pDestSectionHead[pFileHead->NumberOfSections - 1].PointerToRawData + pDestSectionHead[pFileHead->NumberOfSections - 1].SizeOfRawData + sizeof(szShellcode)),
 			szJmp, sizeof(szJmp));
-
 	//增加节表
 	ZeroMemory((void *)&pDestSectionHead[pFileHead->NumberOfSections], IMAGE_SIZEOF_SECTION_HEADER);
 	memcpy(pDestSectionHead[pFileHead->NumberOfSections].Name, ".1900", strlen(".1900"));
